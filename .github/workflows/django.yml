@@ -25,6 +25,7 @@ jobs:
 
   build:
 
+    name: Linting and Tests
     runs-on: ubuntu-latest
 
     steps:
