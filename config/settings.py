@@ -17,9 +17,15 @@ if os.path.isfile(env_file):
     # Use a local secret file, if provided
     env.read_env(env_file)
     environment = os.environ.get('ENVIRONMENT')
+    DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+    STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
+
 
 elif os.environ.get("GOOGLE_CLOUD_PROJECT", None):
     environment = 'production'
+    DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+    STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+
     # Pull secrets from Secret Manager
     project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")
 
@@ -137,6 +143,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = "accounts.CustomUser"
 
+LOGIN_REDIRECT_URL = "pages:home"
+LOGOUT_REDIRECT_URL = "pages:home"
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -156,8 +165,6 @@ USE_TZ = True
 # Define static storage via django-storages[google]
 GS_BUCKET_NAME = env("GS_BUCKET_NAME")
 STATIC_URL = "/static/"
-DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
-STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
 GS_DEFAULT_ACL = "publicRead"
 # [END gaeflex_py_django_static_config]
 # [END staticurl]
