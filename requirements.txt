@@ -5,3 +5,5 @@ django-environ==0.10.0
 google-cloud-secret-manager==2.16.1
 django-storages[google]==1.13.2
 flake8==6.1.0
+isort==5.11.2
+black==23.7.0

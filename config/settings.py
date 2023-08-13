@@ -7,7 +7,7 @@ from google.cloud import secretmanager
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SUPPORTED_ENVIRONMENTS = ['local_docker', 'local_cloud_proxy', 'ci', 'production']
+SUPPORTED_ENVIRONMENTS = ["local_docker", "local_cloud_proxy", "ci", "production"]
 
 # [START gaeflex_py_django_secret_config]
 env = environ.Env(DEBUG=(bool, False))
@@ -16,13 +16,13 @@ env_file = os.path.join(BASE_DIR, ".env")
 if os.path.isfile(env_file):
     # Use a local secret file, if provided
     env.read_env(env_file)
-    environment = os.environ.get('ENVIRONMENT')
+    environment = os.environ.get("ENVIRONMENT")
     DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
     STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 
 elif os.environ.get("GOOGLE_CLOUD_PROJECT", None):
-    environment = 'production'
+    environment = "production"
     DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
     STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
 
@@ -40,8 +40,10 @@ else:
     raise Exception("No local .env or GOOGLE_CLOUD_PROJECT detected. No secrets found.")
 
 if environment not in SUPPORTED_ENVIRONMENTS:
-    raise Exception(f"Env var `environment` is `{environment}` which is not in "
-                    f"the supported values ({SUPPORTED_ENVIRONMENTS})")
+    raise Exception(
+        f"Env var `environment` is `{environment}` which is not in "
+        f"the supported values ({SUPPORTED_ENVIRONMENTS})"
+    )
 
 # [END gaeflex_py_django_secret_config]
 
@@ -65,7 +67,6 @@ INSTALLED_APPS = (
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "accounts.apps.AccountsConfig",
     "pages.apps.PagesConfig",
 )
@@ -108,7 +109,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {"default": env.db()}
 
 # If the flag as been set, configure to use proxy
-if environment == 'local_cloud_proxy':
+if environment == "local_cloud_proxy":
     DATABASES["default"]["HOST"] = "127.0.0.1"
     DATABASES["default"]["PORT"] = 5432
 
@@ -116,11 +117,11 @@ if environment == 'local_cloud_proxy':
 # [END dbconfig]
 
 # Use a in-memory sqlite3 database when testing in CI systems
-if environment == 'ci':
+if environment == "ci":
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / "db.sqlite3",
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
         }
     }
 
