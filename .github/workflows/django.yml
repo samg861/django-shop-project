@@ -1,6 +1,6 @@
 name: Django CI
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
 
@@ -43,8 +43,14 @@ jobs:
         docker cp temp.env mydjangoapp:/code/.env
         rm temp.env
 
-    - name: Run flake8 Lint
+    - name: Run flake8 check
       run: docker exec mydjangoapp flake8 .
+
+    - name: Run black check
+      run: docker exec mydjangoapp black --check .
+
+    - name: Run isort check
+      run: docker exec mydjangoapp isort --check-only .
 
     - name: Run Tests
       run: docker exec mydjangoapp python manage.py test
