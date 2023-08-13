@@ -5,6 +5,7 @@ from django.urls import reverse, resolve
 from .views import SignupPageView
 from .forms import CustomUserCreationForm
 
+
 class CustomUserTests(TestCase):
     def test_create_user(self):
         User = get_user_model()
