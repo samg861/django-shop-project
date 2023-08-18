@@ -7,3 +7,5 @@ django-storages[google]==1.13.2
 flake8==6.1.0
 isort==5.11.2
 black==23.7.0
+django-crispy-forms==1.14.0
+crispy-bootstrap5==0.6

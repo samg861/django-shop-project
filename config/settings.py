@@ -17,14 +17,18 @@ if os.path.isfile(env_file):
     # Use a local secret file, if provided
     env.read_env(env_file)
     environment = os.environ.get("ENVIRONMENT")
+
     DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
     STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
+    STATIC_ROOT = BASE_DIR / "staticfiles"
 
 elif os.environ.get("GOOGLE_CLOUD_PROJECT", None):
     environment = "production"
     DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
     STATICFILES_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
+    GS_DEFAULT_ACL = "publicRead"
+    GS_BUCKET_NAME = env("GS_BUCKET_NAME")
 
     # Pull secrets from Secret Manager
     project_id = os.environ.get("GOOGLE_CLOUD_PROJECT")
@@ -67,6 +71,8 @@ INSTALLED_APPS = (
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "crispy_forms",
+    "crispy_bootstrap5",
     "accounts.apps.AccountsConfig",
     "pages.apps.PagesConfig",
 )
@@ -160,17 +166,19 @@ USE_L10N = True
 
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# [START staticurl]
-# [START gaeflex_py_django_static_config]
-# Define static storage via django-storages[google]
-GS_BUCKET_NAME = env("GS_BUCKET_NAME")
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
+
 STATIC_URL = "/static/"
-GS_DEFAULT_ACL = "publicRead"
-# [END gaeflex_py_django_static_config]
-# [END staticurl]
+
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"  # new
+CRISPY_TEMPLATE_PACK = "bootstrap5"
