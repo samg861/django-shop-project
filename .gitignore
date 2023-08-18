@@ -5,6 +5,9 @@ __pycache__/
 
 .idea/
 
+#staticfiles
+staticfiles/
+
 .DS_Store
 
 # C extensions
