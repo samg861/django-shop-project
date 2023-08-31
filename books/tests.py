@@ -5,13 +5,12 @@ from .models import Book
 
 
 class BookTests(TestCase):
-
     @classmethod
     def setUpTestData(cls):
         cls.book = Book.objects.create(
-        title="Harry Potter",
-        author="JK Rowling",
-        price="25.00",
+            title="Harry Potter",
+            author="JK Rowling",
+            price="25.00",
         )
 
     def test_book_listing(self):
